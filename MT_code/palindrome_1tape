@@ -1,0 +1,56 @@
+qinit, 0
+q0, _, >
+
+qinit, 1
+q1, _, >
+
+qinit, _
+qaccept, _, -
+
+q0, 0
+q0, 0, >
+
+q0, 1
+q0, 1, >
+
+q0, _
+q0suppr, _, <
+
+q0suppr, 0
+qr, _, <
+
+q1, 0
+q1, 0, >
+
+q1, 1
+q1, 1, >
+
+q1, _
+q1suppr, _, <
+
+q1suppr, 1
+qr, _, <
+
+qr, 0
+qr, 0, <
+
+qr, 1
+qr, 1, <
+
+qr, _
+qs, _, >
+
+qs, 0
+q0, _, >
+
+qs, 1
+q1, _, >
+
+q0suppr, _
+qaccept, _, -
+
+q1suppr, _
+qaccept, _, -
+
+qs, _
+qaccept, _, -

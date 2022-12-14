@@ -72,7 +72,7 @@ class Turing(object):
 class Tape(object):
     def __init__(self, name, index = 0) -> None:
         self.name = name
-        self.tape = ['_' for _ in range (10)]
+        self.tape = ['_']
         self.index = index
     
     def get_name(self):
@@ -92,3 +92,6 @@ class Tape(object):
 
     def set_index(self, index):
         self.index = index
+
+    def set_value2index(self, value):
+        self.tape[self.index] = value

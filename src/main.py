@@ -1,12 +1,10 @@
+import sys
+
 from utilities import *
+from calc import *
 
-list_transitions = text2transitions("test")
-list_states = fill_states(list_transitions)
+if __name__ == "__main__":
+    turing, tapes = init_all(sys.argv[1], "turing", sys.argv[4], sys.argv[2])
 
-tapes = init_tapes(2)
-
-for tape in tapes.values():
-    print(tape.tape)
-
-for state in list_states:
-    print(state)
+    if calc_mt(turing, tapes, sys.argv[3]):
+        print("Accept")
