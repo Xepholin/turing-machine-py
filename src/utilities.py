@@ -7,8 +7,8 @@ def print_usage():
          " Calcul :\n"
          " python main.py <Path du code> <Entrée> <état initial> <état acceptant>\n")
 
-def print_tape(actual_state, tapes):
-    print("état actuel:", actual_state.name, '\n')
+def print_tape(actual_state, tapes, count_step):
+    print("état actuel:", actual_state.name, "/ Step:", count_step, '\n')
 
     for tape in tapes.values():
         print("ruban:", list(tapes.keys()) [list(tapes.values()).index(tape)] , "tête de lecture:", tape.index)
@@ -16,10 +16,10 @@ def print_tape(actual_state, tapes):
 
     print("-------------------------------------")
 
-def print_tape5(actual_state, tapes):
-    print("état actuel:", actual_state.name, '\n')
+def print_tape5(actual_state, tapes, count_step):
+    print("état actuel:", actual_state.name, "/ Step:", count_step, '\n')
     print("            v")
-    
+
     for tape in tapes.values():
         print([tape.tape[i] for i in range (tape.get_index()-2, tape.get_index()+3)])
             

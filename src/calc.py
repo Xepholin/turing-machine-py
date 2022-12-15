@@ -45,20 +45,27 @@ def one_step(turing, tapes, actual_state):
 # Calcul la machine de Turing tant que l'état actuel n'est pas l'état acceptant
 # Renvoie 1 si l'état acceptant est atteint, sinon 0
 def calc_mt(turing, tapes, qinit):
+    count_step = 0
+
     for state in turing.states:
         if state.name == qinit:
             actual_state = state
             temp_state = actual_state
     
-    print_tape5(actual_state, tapes)
+    print_tape5(actual_state, tapes, count_step)
 
     while actual_state != turing.accept:
         actual_state = one_step(turing, tapes, actual_state)
+        count_step += 1
         if actual_state:
             temp_state = actual_state
-            print_tape5(actual_state, tapes)
+
+            print_tape5(actual_state, tapes, count_step)
+
+            
         else:
-            print_tape5(temp_state, tapes)
+            print_tape5(temp_state, tapes, count_step)
+
             return 0
         
     return 1
