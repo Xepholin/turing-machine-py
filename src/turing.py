@@ -70,9 +70,9 @@ class Turing(object):
         self.states = states
 
 class Tape(object):
-    def __init__(self, name, index = 0) -> None:
+    def __init__(self, name, index = 2) -> None:
         self.name = name
-        self.tape = ['_']
+        self.tape = ['_', '_', '_', '_', '_']
         self.index = index
     
     def get_name(self):

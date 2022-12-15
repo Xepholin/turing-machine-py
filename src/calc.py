@@ -1,3 +1,8 @@
+from utilities import *
+
+# Effectue 1 pas de calcul en utilisant les arguments donnés
+# Retourne l'état suivant si les valeur de lecture de l'état actuel a bien été trouvé puis que le ruban a bien été modifié
+# Sinon renvoie 0
 def one_step(turing, tapes, actual_state):
     read = []
 
@@ -15,15 +20,18 @@ def one_step(turing, tapes, actual_state):
                         if transition.direction[i] == '>':
                             tapes.get(i).set_index(tapes.get(i).index + 1)
 
-                            if tapes.get(i).index == len(tapes.get(i).tape):
-                                tapes.get(i).tape.insert(len(tape.tape), '_')
+                            if tapes.get(i).index == len(tapes.get(i).tape) - 2:
+                                tapes.get(i).tape.insert(len(tapes.get(i).tape), '_')
+                                tapes.get(i).tape.insert(len(tapes.get(i).tape) + 1, '_')
 
                         elif transition.direction[i] == '<':
                             tapes.get(i).set_index(tapes.get(i).index - 1)
 
-                            if tapes.get(i).index == -1:
-                                tapes.get(i).tape.insert(0, '_')
-                                tapes.get(i).set_index(0)
+                            if tapes.get(i).index < 2:
+                                for i in range (0, 3 - tapes.get(i).index):
+                                    tapes.get(i).tape.insert(0, '_')
+
+                                tapes.get(i).set_index(2)
 
                         else:
                             pass
@@ -32,20 +40,25 @@ def one_step(turing, tapes, actual_state):
         else:
             continue
 
-    print("Reject")
-    exit()
+    return 0
 
+# Calcul la machine de Turing tant que l'état actuel n'est pas l'état acceptant
+# Renvoie 1 si l'état acceptant est atteint, sinon 0
 def calc_mt(turing, tapes, qinit):
     for state in turing.states:
         if state.name == qinit:
             actual_state = state
+            temp_state = actual_state
+    
+    print_tape5(actual_state, tapes)
 
     while actual_state != turing.accept:
-        for tape in tapes.values():
-            print("ruban:", list(tapes.keys()) [list(tapes.values()).index(tape)] , "tête de lecture:", tape.index)
-            print(tape.tape, '\n')
-        
-
         actual_state = one_step(turing, tapes, actual_state)
+        if actual_state:
+            temp_state = actual_state
+            print_tape5(actual_state, tapes)
+        else:
+            print_tape5(temp_state, tapes)
+            return 0
         
     return 1

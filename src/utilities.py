@@ -2,12 +2,40 @@ import tokenize
 
 from turing import *
 
+def print_usage():
+    print("\n # USAGE\n"
+         " Calcul :\n"
+         " python main.py <Path du code> <Entrée> <état initial> <état acceptant>\n")
+
+def print_tape(actual_state, tapes):
+    print("état actuel:", actual_state.name, '\n')
+
+    for tape in tapes.values():
+        print("ruban:", list(tapes.keys()) [list(tapes.values()).index(tape)] , "tête de lecture:", tape.index)
+        print(tape.tape, '\n')
+
+    print("-------------------------------------")
+
+def print_tape5(actual_state, tapes):
+    print("état actuel:", actual_state.name, '\n')
+    print("            v")
+    
+    for tape in tapes.values():
+        print([tape.tape[i] for i in range (tape.get_index()-2, tape.get_index()+3)])
+            
+    print("-------------------------------------")
+
 # Initialise les rubans avec l'entrée positionner sur le ruban 1
 # Retourne un dictionnaire contenant le num du ruban en clé et sa valeur
 def init_tapes(nb, input):
     tapes = {i: Tape(i,) for i in list(range(nb))}
     first_tape = tapes.get(0)
-    first_tape.set_tape(list(input))
+
+    new_input = list(input)
+    new_input.insert(0, '_')
+    new_input.insert(0, '_')
+
+    first_tape.set_tape(new_input)
     return tapes
 
 # Importe les données d'un fichier texte pour les transformer en transition
