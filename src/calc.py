@@ -1,4 +1,5 @@
 from utilities import *
+from copy import deepcopy
 
 # Effectue 1 pas de calcul en utilisant les arguments donnés
 # Retourne l'état suivant si les valeur de lecture de l'état actuel a bien été trouvé puis que le ruban a bien été modifié
@@ -20,6 +21,7 @@ def one_step(turing, tapes, actual_state):
                         if transition.direction[i] == '>':
                             tapes.get(i).set_index(tapes.get(i).index + 1)
 
+                            # Ajout de blancs s'il n'y en a plus assez (inclut l'affichage)
                             if tapes.get(i).index == len(tapes.get(i).tape) - 2:
                                 tapes.get(i).tape.insert(len(tapes.get(i).tape), '_')
                                 tapes.get(i).tape.insert(len(tapes.get(i).tape) + 1, '_')
@@ -27,10 +29,9 @@ def one_step(turing, tapes, actual_state):
                         elif transition.direction[i] == '<':
                             tapes.get(i).set_index(tapes.get(i).index - 1)
 
-                            if tapes.get(i).index < 2:
-                                for i in range (0, 3 - tapes.get(i).index):
-                                    tapes.get(i).tape.insert(0, '_')
-
+                            # Ajout de blancs s'il n'y en a plus assez (inclut l'affichage)
+                            if tapes.get(i).index == 1:
+                                tapes.get(i).tape.insert(0, '_')
                                 tapes.get(i).set_index(2)
 
                         else:

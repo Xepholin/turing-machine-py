@@ -5,7 +5,4 @@ q0, 1
 q0, 1, <
 
 q0, _
-right, q1
-
-q1, _
 qaccept, _, -

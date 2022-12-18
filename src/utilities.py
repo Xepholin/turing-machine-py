@@ -1,4 +1,5 @@
 import tokenize
+import ntpath
 
 from turing import *
 
@@ -25,6 +26,10 @@ def print_tape5(actual_state, tapes, count_step):
             
     print("-------------------------------------")
 
+def path_leaf(path):
+    head, tail = ntpath.split(path)
+    return tail or ntpath.basename(head)
+
 # Initialise les rubans avec l'entrée positionner sur le ruban 1
 # Retourne un dictionnaire contenant le num du ruban en clé et sa valeur
 def init_tapes(nb, input):
@@ -50,6 +55,7 @@ def text2transitions(path):
         tokens = tokenize.tokenize(f.readline)
 
         for token in tokens:
+            # Exclu les tokens ENCODING et ENDMARKER
             if token.type in [62, 0]:
                 continue
             else:
@@ -176,7 +182,7 @@ def init_states(path):
 
 # Initialise une machine de Turing avec les données données en arguments de la méthode
 # Retourne la machine de Turing et les rubans
-def init_all(path, turing_name, state_accept_name, input):
+def init_all(path, input, turing_name, state_init_name, state_accept_name):
     if input == "":
         input = ['_']
 
@@ -185,9 +191,12 @@ def init_all(path, turing_name, state_accept_name, input):
     tapes = init_tapes(tapes_nbr, input)
 
     for state in states:
+        if state.name == state_init_name:
+            init = state
+
         if state.name == state_accept_name:
             accept = state
 
-    turing = Turing(turing_name, alphabet, accept, states)
+    turing = Turing(turing_name, alphabet, init, accept, states)
 
     return turing, tapes

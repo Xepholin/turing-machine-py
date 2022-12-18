@@ -38,12 +38,44 @@ class Transition(object):
     def __str__(self) -> str:
         return "état actuel: {}\nlecture: {}\nétat suivant: {}\nécriture {}\ndirection: {}\n".format(self.actual.name, self.read, self.next.name, self.write, self.direction)
 
+    def get_actual(self):
+        return self.actual
+    
+    def get_read(self):
+        return self.read
+
+    def get_next(self):
+        return self.next
+    
+    def get_write(self):
+        return self.write
+
+    def get_direction(self):
+        return self.direction
+    
+    def set_actual(self, actual):
+        self.actual = actual
+    
+    def set_read(self, read):
+        self.read = read
+
+    def set_next(self, next):
+        self.next = next
+    
+    def set_write(self, write):
+        self.write = write
+
+    def set_direction(self, direction):
+        self.direction = direction
+
 class Turing(object):
-    def __init__(self, name, symb, qaccept, states = []) -> None:
+    def __init__(self, name, symb, qinit, qaccept, states = [], call = []) -> None:
         self.name = name
         self.symb = symb
+        self.init = qinit
         self.accept = qaccept
         self.states = states
+        self.call = call
 
     def get_name(self):
         return self.name
