@@ -1,13 +1,46 @@
 import tokenize
+import ntpath
 
 from turing import *
+
+def print_usage():
+    print("\n # USAGE\n"
+         " Calcul :\n"
+         " python main.py <Path du code> <Entrée> <état initial> <état acceptant>\n")
+
+def print_tape(actual_state, tapes, count_step):
+    print("état actuel:", actual_state.name, "/ Step:", count_step, '\n')
+
+    for tape in tapes.values():
+        print("ruban:", list(tapes.keys()) [list(tapes.values()).index(tape)] , "tête de lecture:", tape.index)
+        print(tape.tape, '\n')
+
+    print("-------------------------------------")
+
+def print_tape5(actual_state, tapes, count_step):
+    print("état actuel:", actual_state.name, "/ Step:", count_step, '\n')
+    print("            v")
+
+    for tape in tapes.values():
+        print([tape.tape[i] for i in range (tape.get_index()-2, tape.get_index()+3)])
+            
+    print("-------------------------------------")
+
+def path_leaf(path):
+    head, tail = ntpath.split(path)
+    return tail or ntpath.basename(head)
 
 # Initialise les rubans avec l'entrée positionner sur le ruban 1
 # Retourne un dictionnaire contenant le num du ruban en clé et sa valeur
 def init_tapes(nb, input):
     tapes = {i: Tape(i,) for i in list(range(nb))}
     first_tape = tapes.get(0)
-    first_tape.set_tape(list(input))
+
+    new_input = list(input)
+    new_input.insert(0, '_')
+    new_input.insert(0, '_')
+
+    first_tape.set_tape(new_input)
     return tapes
 
 # Importe les données d'un fichier texte pour les transformer en transition
@@ -22,6 +55,7 @@ def text2transitions(path):
         tokens = tokenize.tokenize(f.readline)
 
         for token in tokens:
+            # Exclu les tokens ENCODING et ENDMARKER
             if token.type in [62, 0]:
                 continue
             else:
@@ -148,7 +182,7 @@ def init_states(path):
 
 # Initialise une machine de Turing avec les données données en arguments de la méthode
 # Retourne la machine de Turing et les rubans
-def init_all(path, turing_name, state_accept_name, input):
+def init_all(path, input, turing_name, state_init_name, state_accept_name):
     if input == "":
         input = ['_']
 
@@ -157,9 +191,12 @@ def init_all(path, turing_name, state_accept_name, input):
     tapes = init_tapes(tapes_nbr, input)
 
     for state in states:
+        if state.name == state_init_name:
+            init = state
+
         if state.name == state_accept_name:
             accept = state
 
-    turing = Turing(turing_name, alphabet, accept, states)
+    turing = Turing(turing_name, alphabet, init, accept, states)
 
     return turing, tapes
