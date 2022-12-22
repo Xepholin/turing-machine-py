@@ -36,7 +36,7 @@ class Transition(object):
         self.direction = direction
     
     def __str__(self) -> str:
-        return "état actuel: {}\nlecture: {}\nétat suivant: {}\nécriture {}\ndirection: {}\n".format(self.actual.name, self.read, self.next.name, self.write, self.direction)
+        return "état actuel: {}\nlecture: {}\nétat suivant: {}\nécriture: {}\ndirection: {}\n".format(self.actual.name, self.read, self.next.name, self.write, self.direction)
 
     def get_actual(self):
         return self.actual
@@ -89,6 +89,9 @@ class Turing(object):
     def get_states(self):
         return self.states
 
+    def get_call(self):
+        return self.call
+
     def set_name(self, name):
         self.name = name
 
@@ -100,6 +103,9 @@ class Turing(object):
 
     def set_states(self, states):
         self.states = states
+    
+    def set_call(self, call):
+        self.call = call
 
 class Tape(object):
     def __init__(self, name, index = 2) -> None:

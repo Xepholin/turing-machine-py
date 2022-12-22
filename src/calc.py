@@ -36,11 +36,9 @@ def one_step(turing, tapes, actual_state):
 
                         else:
                             pass
-
                     return transition.next
         else:
             continue
-
     return 0
 
 # Calcul la machine de Turing tant que l'état actuel n'est pas l'état acceptant
@@ -60,13 +58,53 @@ def calc_mt(turing, tapes, qinit):
         count_step += 1
         if actual_state:
             temp_state = actual_state
-
             print_tape5(actual_state, tapes, count_step)
-
             
         else:
             print_tape5(temp_state, tapes, count_step)
-
             return 0
         
     return 1
+
+def change_transition4M1(M1, M2, tape_nbr):
+    copy = deepcopy(M2)
+
+    for call in M1.call:
+        actual_state, read, M2_name, next_state = call
+
+        if M2_name == copy.name:
+            for state in copy.states:
+                if state.name == copy.init.name:
+                    for transition in state.transitions:
+                        if transition.actual.name == copy.init.name:
+                            transition.set_actual(actual_state)
+                            actual_state.transitions.append(transition)
+                        if transition.next.name == copy.init.name:
+                            transition.set_next(actual_state)
+                            actual_state.transitions.append(transition)
+                    state.set_name(state.name + "M2")
+                elif state.name == copy.accept.name:
+                    direction = []
+                    for _ in range (tape_nbr):
+                        direction.append('-')
+
+                    state.transitions.append(Transition(state, read, next_state, read, direction))
+                    state.set_name(state.name + "M2")
+                else:
+                    state.set_name(state.name + "M2")
+        else:
+            raise ValueError("Le nom donné à la transition ne correspond pas au nom de la 2e MT.")
+    
+    return copy
+
+def link(M1, M2, name, tape_nbr):
+    states = []
+    new_M2 = change_transition4M1(M1, M2, tape_nbr)
+
+    for state in new_M2.states:
+        states.append(state)
+
+    for state in M1.states:
+        states.append(state)
+    
+    return Turing(name, M1.symb, M1.init, M1.accept, states)

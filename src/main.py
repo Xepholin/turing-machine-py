@@ -32,14 +32,13 @@ if __name__ == "__main__":
         else:
             print("Reject")
 
-    elif args.fonctions == 'link': 
+    elif args.fonctions == 'link':
         M1, tapes = init_all(args.chemin_M1, args.entree, path_leaf(args.chemin_M1), args.etat_initial_M1, args.etat_acceptant_M1)
         M2, _ = init_all(args.chemin_M2, args.entree, path_leaf(args.chemin_M2), args.etat_initial_M2, args.etat_acceptant_M2)
         
-        M3 = linker(M1, M2, "M3")
+        M3 = link(M1, M2, "M3", len(tapes))
 
         if calc_mt(M3, tapes, args.etat_initial_M1):
             print("Accept")
         else:
-            print("Reject")
-            
+            print("Reject")  
