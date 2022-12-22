@@ -71,11 +71,9 @@ def text2transitions(path):
         for line in lines:
             count_line += 1
             tokens = re.split(r',|, | |\n', line.decode('utf-8'))
-
+            supress_empty(tokens)
             if len(line) != 1 and line[0] != '':
                 if transition_line%2 == 0:
-                    supress_empty(tokens)
-
                     if len(tokens) == (1 + tape_nbr) or len(tokens) == 2:
                         for token in tokens:
                             state_sav.append(token)
@@ -85,14 +83,12 @@ def text2transitions(path):
                         raise ValueError("Le nombre d'argument donnée n'est pas correct, ligne {}.".format(count_line))
                         
                 else:
-                    supress_empty(tokens)
-
                     if len(tokens) == (1 + tape_nbr * 2) or len(tokens) == 2:
                         for token in tokens:
                             state_sav.append(token)
 
                         # Créer une nouvelle transition depuis le parsing de state_sav à chaque fois qu'il atteint une certaine longueur en fonction du nb de ruban
-                        if len(state_sav) == (2 + tape_nbr * 3):
+                        if len(tokens) == (1 + tape_nbr * 2):
                             if len(list_transitions) != 0:
                                 check = True
                                 for transition in list_transitions:
@@ -124,7 +120,7 @@ def text2transitions(path):
                                 states.append(actual_state)
 
                             read = list()
-                            for i in range (0, tape_nbr):
+                            for _ in range (tape_nbr):
                                 read.append(state_sav.pop(0))
 
                             if len(list_transitions) != 0:
@@ -160,159 +156,60 @@ def text2transitions(path):
                                 states.append(next_state)
 
                             write = list()
-                            for i in range (0, tape_nbr):
+                            for _ in range (tape_nbr):
                                 write.append(state_sav.pop(0))
 
                             direction = list()
-                            for i in range (0, tape_nbr):
+                            for _ in range (tape_nbr):
+
                                 direction.append(state_sav.pop(0))
 
                             new = Transition(actual_state, read, next_state, write, direction)
                             list_transitions.append(new)
-                        elif len(state_sav) == (3 + tape_nbr):
-                            temp = []
+                        elif len(tokens) == 2:
+                            call_stock = []
 
                             for transition in list_transitions:
                                 if transition.actual.name == state_sav[0]:
-                                    temp.append(transition.actual)
+                                    call_stock.append(transition.actual)
                                     state_sav.pop(0)
                                     break
                                 if transition.next.name == state_sav[0]:
-                                    temp.append(transition.next)
+                                    call_stock.append(transition.next)
                                     state_sav.pop(0)
                                     break
-                            if len(temp) != 1:
+                            if len(call_stock) != 1:
                                 new_state = State(state_sav[0])
-                                temp.append(new_state)
+                                call_stock.append(new_state)
                                 states.append(new_state)
                                 state_sav.pop(0)
 
-                            temp.append([state_sav.pop(0)])
-                            temp.append(state_sav.pop(0))
+                            read_call = []
+                            for _ in range (tape_nbr):
+                                read_call.append(state_sav.pop(0))
+                            call_stock.append(read_call)
+                            
+                            call_stock.append(state_sav.pop(0))
 
                             for transition in list_transitions:
                                 if transition.actual.name == state_sav[0]:
-                                    temp.append(transition.actual)
+                                    call_stock.append(transition.actual)
                                     state_sav.pop(0)
                                 if transition.next.name == state_sav[0]:
-                                    temp.append(transition.next)
+                                    call_stock.append(transition.next)
                                     state_sav.pop(0)
-                            if len(temp) != 4:
+                            if len(call_stock) != 1:
                                 new_state = State(state_sav[0])
-                                temp.append(new_state)
+                                call_stock.append(new_state)
                                 states.append(new_state)
                                 state_sav.pop(0)
 
-
-                            list_call.append(temp.copy())
-                            temp.clear()
-
+                            list_call.append(call_stock.copy())
+                            call_stock.clear()
+                            
                         transition_line = 0
                     else:
                         raise ValueError("Le nombre d'argument donnée n'est pas correct, ligne {}.".format(count_line))
-
-        """
-        list_transitions = list()
-        state_sav = list()
-        tape_nbr = 0
-        tokens_list = []
-        tokens = tokenize.tokenize(f.readline)
-
-        for token in tokens:
-            # Exclu les tokens ENCODING et ENDMARKER
-            if token.type in [62, 0]:
-                continue
-            else:
-                print(token)
-                # Check si les lignes possèdent bien le bon nombre d'argument, en fonction de la ligne
-                if token.start[0] == 1:
-                    pass
-                else:
-                    if token.type in [4, 61] or token.string == ',':
-                        pass
-                    else:
-                        tokens_list.append(token.string)
-
-                    if (token.string == '\n' and token.type == 4) and token.start[1] != 0:
-                        if '>' in tokens_list or '<' in tokens_list or '-' in tokens_list:
-                            if len(tokens_list) != (1 + tape_nbr * 2):
-                                raise ValueError("Le nombre d'argument donnée n'est pas correct, ligne {}".format(token.start[0]))
-                        else:
-                            if len(tokens_list) != (1 + tape_nbr):
-                                raise ValueError("Le nombre d'argument donnée n'est pas correct, ligne {}".format(token.start[0]))
-                    
-                        tokens_list.clear()
-
-
-                # Insère les arguments du texte dans la liste state_sav, puis compte le nb de token de la 1ère ligne pour trouver le nb de ruban
-                if token.type in [1, 2, 54] and token.string != ',':
-                    state_sav.append(token.string)
-                    if token.start[0] == 1 and token.start[1] != 0:
-                        tape_nbr += 1
-
-                # Créer une nouvelle transition depuis le parsing de state_sav à chaque fois qu'il atteint une certaine longueur en fonction du nb de ruban
-                if len(state_sav) == (2 + tape_nbr * 3):
-                    if len(list_transitions) != 0:
-                        check = False
-                        for transition in list_transitions:
-                            if transition.actual.name == state_sav[0]:
-                                actual_state = transition.actual
-                                state_sav.pop(0)
-                                check = False
-                                break
-                            elif transition.next.name == state_sav[0]:
-                                actual_state = transition.next
-                                state_sav.pop(0)
-                                check = False
-                                break
-                            else:
-                                check = True
-                                continue
-                        if check:
-                            actual_state = State(state_sav.pop(0))
-                    else:
-                        actual_state = State(state_sav.pop(0))
-
-                    read = list()
-                    for i in range (0, tape_nbr):
-                        read.append(state_sav.pop(0))
-
-                    if len(list_transitions) != 0:
-                        check = True
-                        for transition in list_transitions:
-                            if transition.actual.name == state_sav[0]:
-                                next_state = transition.actual
-                                state_sav.pop(0)
-                                check = False
-                                break
-                            elif transition.next.name == state_sav[0]:
-                                next_state = transition.next
-                                state_sav.pop(0)
-                                check = False
-                                break
-                            else:
-                                continue
-                        if check:
-                            next_state = State(state_sav.pop(0))
-                    elif actual_state.name == state_sav[0]:
-                        next_state = actual_state
-                        state_sav.pop(0)
-                    else:
-                        next_state = State(state_sav.pop(0))
-
-                    write = list()
-                    for i in range (0, tape_nbr):
-                        write.append(state_sav.pop(0))
-
-                    direction = list()
-                    for i in range (0, tape_nbr):
-                        direction.append(state_sav.pop(0))
-
-                    new = Transition(actual_state, read, next_state, write, direction)
-
-                    list_transitions.append(new)
-        """
-
     return list_transitions, list_call, tape_nbr
 
 # Depuis la liste des transitions, trouve les états qui ont été crée
