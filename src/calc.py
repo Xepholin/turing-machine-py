@@ -1,5 +1,7 @@
-from utilities import *
 from copy import deepcopy
+
+from turing import *
+from utilities import *
 
 # Effectue 1 pas de calcul en utilisant les arguments donnés
 # Retourne l'état suivant si les valeur de lecture de l'état actuel a bien été trouvé puis que le ruban a bien été modifié

@@ -1,5 +1,6 @@
 import argparse
 
+from init import *
 from utilities import *
 from calc import *
 
@@ -33,12 +34,15 @@ if __name__ == "__main__":
             print("Reject")
 
     elif args.fonctions == 'link':
-        M1, tapes = init_all(args.chemin_M1, args.entree, path_leaf(args.chemin_M1), args.etat_initial_M1, args.etat_acceptant_M1)
-        M2, _ = init_all(args.chemin_M2, args.entree, path_leaf(args.chemin_M2), args.etat_initial_M2, args.etat_acceptant_M2)
+        M1, tapes1 = init_all(args.chemin_M1, args.entree, path_leaf(args.chemin_M1), args.etat_initial_M1, args.etat_acceptant_M1)
+        M2, tapes2 = init_all(args.chemin_M2, args.entree, path_leaf(args.chemin_M2), args.etat_initial_M2, args.etat_acceptant_M2)
         
-        M3 = link(M1, M2, "M3", len(tapes))
+        if len(tapes1) == len(tapes2):
+            M3 = link(M1, M2, "M3", len(tapes1))
 
-        if calc_mt(M3, tapes, args.etat_initial_M1):
-            print("Accept")
+            if calc_mt(M3, tapes1, args.etat_initial_M1):
+                print("Accept")
+            else:
+                print("Reject")
         else:
-            print("Reject")  
+            raise ValueError("Le nombre de ruban des 2 MT pour le linker est différent.")
