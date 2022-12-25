@@ -63,16 +63,16 @@ def text2transitions(path):
 
     with open(path, 'rb') as f:
         lines = f.readlines()
-        first_line = re.split(r',|, | |\n', lines[0].decode('utf-8'))
+        first_line = re.split(r',|, | |\n|\r', lines[0].decode('utf-8'))
 
         supress_empty(first_line)
         tape_nbr = len(first_line) - 1
 
         for line in lines:
             count_line += 1
-            tokens = re.split(r',|, | |\n', line.decode('utf-8'))
+            tokens = re.split(r',|, | |\n|\r', line.decode('utf-8'))
             supress_empty(tokens)
-            if len(line) != 1 and line[0] != '':
+            if len(tokens) != 0:
                 if transition_line%2 == 0:
                     if len(tokens) == (1 + tape_nbr) or len(tokens) == 2:
                         for token in tokens:
