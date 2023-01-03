@@ -1,0 +1,156 @@
+name: addition_egyptienne
+init: q+
+accept: qaccept
+
+q+, 0, _, _
+q+, 0, _, _, >, -, -
+
+q+, 1, _, _
+q+, 1, _, _, >, -, -
+
+q+, +, _, _
+qr2, _, _, _, >, -, -
+
+qr2, 0, _, _
+qr2, _, 0, _, >, >, -
+
+qr2, 1, _, _
+qr2, _, 1, _, >, >, -
+
+qr2, _, _, _
+qr1, _, _, _, <, -, -
+
+qr1, _, _, _
+qr1, _, _, _, <, -, -
+
+qr1, 0, _, _
+qr2, 0, _, _, -, <, -
+
+qr1, 1, _, _
+qd, 1, _, 0, -, <, -
+
+qd, 0, 0, 0
+qcheck, 0, 0, 0, <, -, -
+
+qd, 0, 0, 1
+qcheck, 0, 0, 1, <, -, -
+
+qd, 0, 1, 0
+qcheck, 0, 1, 0, <, -, -
+
+qd, 0, 1, 1
+qcheck, 0, 1, 1, <, -, -
+
+qcheck, 0, 0, 0
+qdv, 0, 0, 0, >, -, -
+
+qcheck, 0, 0, 1
+qdv, 0, 0, 1, >, -, -
+
+qcheck, 0, 1, 0
+qdv, 0, 1, 0, >, -, -
+
+qcheck, 0, 1, 1
+qdv, 0, 1, 1, >, -, -
+
+qcheck, 1, 0, 0
+qdv, 1, 0, 0, >, -, -
+
+qcheck, 1, 0, 1
+qdv, 1, 0, 1, >, -, -
+
+qcheck, 1, 1, 0
+qdv, 1, 1, 0, >, -, -
+
+qcheck, 1, 1, 1
+qdv, 1, 1, 1, >, -, -
+
+qd, 1, 0, 0
+qdv, 1, 0, 0, -, -, -
+
+qd, 1, 0, 1
+qdv, 1, 0, 1, -, -, -
+
+qd, 1, 1, 0
+qdv, 1, 1, 0, -, -, -
+
+qd, 1, 1, 1
+qdv, 1, 1, 1, -, -, -
+
+qdv, 0, 0, 0
+qpair, _, 0, 0, <, >, -
+
+qdv, 0, 0, 1
+qpair, _, 0, 1, <, >, -
+
+qdv, 0, 1, 0
+qpair, _, 1, 0, <, >, -
+
+qdv, 0, 1, 1
+qpair, _, 1, 1, <, >, -
+
+qpair, 0, 0, 0
+qpairxy, _, 0, 0, <, >, -
+
+qpair, 0, 1, 0
+qpairxy, _, 1, 0, <, >, -
+
+qpair, 0, 0, 1
+qpairxy, _, 0, 1, <, >, -
+
+qpair, 0, 1, 1
+qpairxy, _, 1, 1, <, >, -
+
+qpairxy, 0, _, 0
+qd, 0, 0, 0, -, -, -
+
+qpairxy, 0, _, 1
+qd, 0, 0, 1, -, -, -
+
+qdv, 1, 0, 0
+qimpair, _, 0, 0, <, -, -
+
+qdv, 1, 1, 0
+qimpair, _, 1, 0, <, -, -
+
+qdv, 1, 0, 1
+qimpair, _, 0, 1, <, -, -
+
+qdv, 1, 1, 1
+qimpair, _, 1, 1, <, -, -
+
+qimpair, 0, 0, 0
+addition23, qd
+
+qimpair, 0, 0, 1
+addition23, qd
+
+qimpair, 0, 1, 0
+addition23, qd
+
+qimpair, 0, 1, 1
+addition23, qd
+
+qimpair, 1, 0, 0
+addition23, qd
+
+qimpair, 1, 0, 1
+addition23, qd
+
+qimpair, 1, 1, 0
+addition23, qd
+
+qimpair, 1, 1, 1
+addition23, qd
+
+qcheck, _, 0, 0
+qaccept, _, 0, 0, >, -, -
+
+qcheck, _, 0, 1
+qaccept, _, 0, 1, >, -, -
+
+qcheck, _, 1, 0
+qaccept, _, 1, 0, >, -, -
+
+qcheck, _, 1, 1
+qaccept, _, 1, 1, >, -, -

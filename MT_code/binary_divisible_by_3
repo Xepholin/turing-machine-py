@@ -1,3 +1,7 @@
+name: binary divisible by 3
+init: q0
+accept: qAccept
+
 q0,0
 q0,0,>
 

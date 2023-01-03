@@ -1,7 +1,3 @@
-from enum import Enum
-
-# Direction = Enum("direction left right stay")
-
 class State(object):
     def __init__(self, name) -> None:
         self.name = name
@@ -110,7 +106,7 @@ class Turing(object):
 class Tape(object):
     def __init__(self, name, index = 2) -> None:
         self.name = name
-        self.tape = ['_', '_', '_', '_', '_']
+        self.tape = ['_', '_', '_', '_', '_']   # Initialisation à 5 pour l'affichage
         self.index = index
     
     def get_name(self):

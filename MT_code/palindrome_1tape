@@ -1,3 +1,7 @@
+name: palindrome_1tape
+init: qinit
+accept: qaccept
+
 qinit, 0
 q0, _, >
 

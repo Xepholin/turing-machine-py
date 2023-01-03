@@ -1,3 +1,7 @@
+name: erase1
+init: q0
+accept: qAccept
+
 q0,0
 q0,_,>
 

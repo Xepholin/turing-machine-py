@@ -1,3 +1,7 @@
+name: copy12
+init: q0
+accept: qAccept
+
 q0,0,_
 q0,0,0,>,>
 

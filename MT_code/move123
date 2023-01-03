@@ -1,3 +1,7 @@
+name: move123
+init: q0
+accept: qAccept
+
 q0,0,_,_
 q0,_,0,_,>,>,-
 

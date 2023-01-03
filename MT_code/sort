@@ -1,3 +1,7 @@
+name: sortBinary2
+init: q0
+accept: FinTri
+
 q0,0,_
 q00,0,_,>,-
 

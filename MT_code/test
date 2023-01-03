@@ -1,3 +1,7 @@
+name: test
+init: q0
+accept: qaccept
+
 q0, a
 q0, a, >
 

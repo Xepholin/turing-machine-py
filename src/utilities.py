@@ -1,10 +1,5 @@
 import ntpath
 
-def print_usage():
-    print("\n # USAGE\n"
-         " Calcul :\n"
-         " python main.py <Path du code> <Entrée> <état initial> <état acceptant>\n")
-
 def print_tape(actual_state, tapes, count_step):
     print("état actuel:", actual_state.name, "/ Step:", count_step, '\n')
 
