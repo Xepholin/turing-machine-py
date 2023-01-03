@@ -1,6 +1,8 @@
 # Machine de Turing
 ## En Python
 
+Répertoire Github : https://github.com/Xepholin/turing-machine-py.git
+
 Ce projet a été réalisé dans le cadre de l'UE Théorie des langages 2022-2023 et a pour but d'implémenter une simulation d'une machine de Turing en python.
 Une documentation basique du code est disponible directement depuis le code source.
 
